@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Sample Project</title>
+        <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script>
+		
+			
+		</script>
+		<style type="text/css">
+			body, div, h1{
+				margin: 0;
+				padding: 0;
+			}
+
+		</style>
+    </head>
+    <body>
+    	<div id="here1"><div id="here"></div></div>
+		
+
+		<script type="text/javascript">
+			function loop1() {
+				for(var i=1;i<15000;i++) {
+					document.getElementById("here").innerHTML += 'a';
+				}
+			}
+
+			function loop2() {
+				var content = "";
+				for(var i=1;i<15000;i++) {
+					content += 'a';
+				}
+				document.getElementById("here").innerHTML += content;
+			}
+
+			/*var start = new Date().getTime();
+			loop1();
+			var end = new Date().getTime();
+			console.log( (end - start)/1000 );
+			alert((end - start)/1000);*/
+
+
+/*			for(var ii = 0;ii<5000; ii++) {
+				document.body.appendChild(document.createElement('div'));
+			}*/
+			
+			function collectionGlobal() {
+				var alldivs = document.getElementsByTagName('div');
+				for(var i=0;i<alldivs.length;i++) {
+					var name = document.getElementsByTagName('div')[i].nodeName;
+					var name = document.getElementsByTagName('div')[i].nodeType;
+					var name = document.getElementsByTagName('div')[i].tagName;
+				}
+			}
+
+			function collectionLocal() {
+				var alldivs = document.getElementsByTagName('div');
+				var length = alldivs.length;
+				var node = null;
+				var name = null;
+				for(var i=0;i<alldivs.length;i++) {
+					node = alldivs[i];
+					name = node.nodeName;
+					name = node.nodeType;
+					name = node.tagName;
+				}
+			}
+
+
+	/*		var start = new Date().getTime();
+			collectionGlobal();
+			//collectionLocal();
+			var end = new Date().getTime();
+			console.log( (end - start) );
+			alert('slow' + (end - start));
+
+
+			start = new Date().getTime();
+			//collectionGlobal();
+			collectionLocal();
+			end = new Date().getTime();
+			console.log( (end - start) );
+			alert('fast' + (end - start));*/
+
+
+
+			//测试childenodes
+			for(var ii = 0;ii<10000; ii++) {
+				document.getElementById('here').appendChild(document.createElement('div'));
+			}
+
+			function testChildNodesSlow() {
+				var parentNode = document.getElementById("here");
+				var childs = parentNode.childNodes;
+				var len = childs.length;
+				var name = '';
+				for(var i=0;i<len;i++) {
+					var name = childs[i].nodeName;
+				}
+			}
+
+			function testChildNodesFast() {
+				var parentNode = document.getElementById("here");
+				var childs = parentNode.children;
+				var len = childs.length;
+				var name = '';
+				for(var i=0;i<len;i++) {
+					var name = childs[i].nodeName;
+				}
+			}
+
+			function testChildNodesJQuery() {
+				var name = "";
+				$("#here").children().each(function(){
+					name = this.nodeName;
+				});
+			}
+
+/*			var start = new Date().getTime();
+			testChildNodesSlow();
+			var end = new Date().getTime();
+			alert('slow' + (end - start));
+
+
+			start = new Date().getTime();
+			testChildNodesFast();
+			end = new Date().getTime();
+			alert('fast' + (end - start));
+
+			start = new Date().getTime();
+			testChildNodesJQuery();
+			end = new Date().getTime();
+			alert('jquery' + (end - start));*/
+
+			function cssSelectDom() {
+				for(var i=0;i<10000;i++) {
+					//var a = document.getElementById("here1").querySelectorAll("#here");
+					var a = document.querySelectorAll("#here");
+					var a = null;
+				}
+			}
+
+			function jquerySelectDom() {
+				for(var i=0;i<10000;i++) {
+					var a = $("#here");
+					var a = null;
+				}
+			}
+			
+/*			var start = new Date().getTime();
+			cssSelectDom();
+			var end = new Date().getTime();
+			alert('dom' + (end - start));
+
+
+			start = new Date().getTime();
+			jquerySelectDom();
+			end = new Date().getTime();
+			alert('jquery' + (end - start));*/
+
+
+			function reflowSlow(){
+				var computed = null;
+				var tmp = "";
+				var bodystyle = document.body.style;
+				if(document.body.currentStyle)
+					computed = document.body.currentStyle;
+				else
+					computed = document.defaultView.getComputedStyle(document.body,"");
+				bodystyle.color = "red";
+				tmp = computed.backgroundColor;
+				bodystyle.color = "yellow";
+				tmp = computed.backgroundImage;
+				bodystyle.color = "green";
+				tmp = computed.backgroundAttachment;
+			}
+			
+			function reflowFast(){
+				var computed = null;
+				var tmp = "";
+				var bodystyle = document.body.style;
+				if(document.body.currentStyle)
+					computed = document.body.currentStyle;
+				else
+					computed = document.defaultView.getComputedStyle(document.body,"");
+				bodystyle.color = "red";
+				
+				bodystyle.color = "yellow";
+				
+				bodystyle.color = "green";
+				tmp = computed.backgroundImage;
+				tmp = computed.backgroundColor;
+				tmp = computed.backgroundAttachment;
+			}
+
+			var start = new Date().getTime();
+			reflowSlow();
+			var end = new Date().getTime();
+			alert('slow' + (end - start));
+			
+			//var start = new Date().getTime();
+			//reflowFast();
+			//var end = new Date().getTime();
+			//alert('fast' + (end - start));
+			
+
+
+		</script>
+    </body>
+</html>
